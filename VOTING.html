@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Learning Hub - Training Vote</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #ffd700 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 215, 0, 0.1) 10px,
+                rgba(255, 215, 0, 0.1) 20px
+            );
+            animation: float 20s linear infinite;
+        }
+        
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            animation: bounce 2s infinite;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        
+        .logo:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        .logo:nth-child(3) {
+            animation-delay: 1s;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            animation: slideDown 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: slideUp 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-content {
+            padding: 40px 20px;
+        }
+        
+        .question {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .question h2 {
+            font-size: 2rem;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+        
+        .voting-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .vote-options {
+            background: #f8f9ff;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #e0e7ff;
+        }
+        
+        .vote-options h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .option {
+            background: white;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .option:hover {
+            border-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option:hover::before {
+            left: 100%;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            accent-color: #1e3c72;
+        }
+        
+        .option label {
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .custom-input {
+            margin-top: 10px;
+            padding: 12px;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            width: 100%;
+            font-family: inherit;
+            display: none;
+        }
+        
+        .custom-input:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+        
+        .vote-btn {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vote-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+        
+        .vote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3);
+        }
+        
+        .vote-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .vote-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .results-section {
+            background: #fff8e1;
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #ffd700;
+        }
+        
+        .results-section h3 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .result-item {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .result-name {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .result-count {
+            background: #1e3c72;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e0e7ff;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3c72, #ffd700);
+            border-radius: 4px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shine 2s infinite;
+        }
+        
+        .total-votes {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: floatAround 15s infinite linear;
+        }
+        
+        .message {
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(100px); }
+        }
+        
+        @keyframes floatAround {
+            0% { transform: translate(0, 100vh) rotate(0deg); }
+            100% { transform: translate(100vw, -100px) rotate(360deg); }
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        @media (max-width: 768px) {
+            .voting-section {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .question h2 {
+                font-size: 1.5rem;
+            }
+            
+            .logo-container {
+                gap: 15px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .question h2 {
+                font-size: 1.3rem;
+                padding: 0 10px;
+            }
+            
+            .vote-options, .results-section {
+                padding: 20px 15px;
+            }
+            
+            .option {
+                padding: 15px;
+                margin: 10px 0;
+            }
+            
+            .vote-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .logo {
+                width: 50px;
+                height: 50px;
+                font-size: 16px;
+            }
+            
+            .logo-container {
+                gap: 10px;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .result-name {
+                font-size: 0.9rem;
+            }
+            
+            .result-count {
+                font-size: 0.8rem;
+                padding: 3px 8px;
+            }
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+            position: relative;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .modal-body {
+            padding: 30px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .suggestions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .suggestions-table th,
+        .suggestions-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e7ff;
+        }
+        
+        .suggestions-table th {
+            background: linear-gradient(135deg, #f8f9ff, #e0e7ff);
+            color: #1e3c72;
+            font-weight: 600;
+            font-size: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .suggestions-table tr:hover {
+            background: #f8f9ff;
+            transform: scale(1.01);
+            transition: all 0.2s ease;
+        }
+        
+        .suggestion-text {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .suggestion-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .no-suggestions {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .clickable-result {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .clickable-result:hover {
+            background: #f0f8ff;
+            transform: translateX(5px);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                padding: 15px 20px;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .modal-body {
+                padding: 20px 15px;
+            }
+            
+            .suggestions-table th,
+            .suggestions-table td {
+                padding: 10px 8px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 98%;
+                margin: 5% auto;
+                max-height: 90vh;
+            }
+            
+            .modal-header {
+                padding: 12px 15px;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.1rem;
+            }
+            
+            .modal-body {
+                padding: 15px 10px;
+            }
+            
+            .suggestions-table {
+                font-size: 0.8rem;
+            }
+            
+            .suggestions-table th,
+            .suggestions-table td {
+                padding: 8px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="left: 10%; animation-delay: 0s;">📚</div>
+        <div class="floating-element" style="left: 20%; animation-delay: 3s;">💻</div>
+        <div class="floating-element" style="left: 30%; animation-delay: 6s;">🎓</div>
+        <div class="floating-element" style="left: 40%; animation-delay: 9s;">⭐</div>
+        <div class="floating-element" style="left: 50%; animation-delay: 12s;">🚀</div>
+        <div class="floating-element" style="left: 60%; animation-delay: 2s;">💡</div>
+        <div class="floating-element" style="left: 70%; animation-delay: 5s;">🎯</div>
+        <div class="floating-element" style="left: 80%; animation-delay: 8s;">🌟</div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <!-- Replace with your first logo -->
+                    <img src="BLH LOGO.png" alt="Logo 1" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span style="display: none;">🏛️</span>
+                </div>
+                <div class="logo">
+                    <!-- Replace with your second logo -->
+                    <img src="RG Logo.png" alt="Logo 2" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span style="display: none;">📖</span>
+                </div>
+                <div class="logo">
+                    <!-- Replace with your third logo -->
+                    <img src="BALANGA CITY HALL LOGO.png" alt="Logo 3" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <span style="display: none;">🎯</span>
+                </div>
+            </div>
+            <h1>🎓 Barangay Learning Hub</h1>
+            <p>Empowering Communities Through Digital Learning</p>
+        </div>
+
+        <div class="main-content">
+            <div class="question">
+                <h2>Ano ang Gusto mong susunod na Training sa Barangay Learning Hub? 🤔</h2>
+            </div>
+
+            <div class="message" id="message"></div>
+
+            <div class="voting-section">
+                <div class="vote-options">
+                    <h3>🗳️ Cast Your Vote</h3>
+                    <form id="voteForm">
+                        <div class="option">
+                            <label>
+                                <input type="radio" name="training" value="CyberKaalaman">
+                                🔐 CyberKaalaman
+                            </label>
+                        </div>
+                        
+                        <div class="option">
+                            <label>
+                                <input type="radio" name="training" value="HOUR OF CODE: MineCraft">
+                                ⛏️ HOUR OF CODE: MineCraft
+                            </label>
+                        </div>
+                        
+                        <div class="option">
+                            <label>
+                                <input type="radio" name="training" value="The Keys to Typing: Finger Positions Made Easy">
+                                ⌨️ The Keys to Typing: Finger Positions Made Easy
+                            </label>
+                        </div>
+                        
+                        <div class="option">
+                            <label>
+                                <input type="radio" name="training" value="File Safety 101: Recovering & Protecting Data">
+                                🛡️ File Safety 101: Recovering & Protecting Data
+                            </label>
+                        </div>
+                        
+                        <div class="option">
+                            <label>
+                                <input type="radio" name="training" value="others" id="othersRadio">
+                                ✨ Others - Suggest a Training
+                            </label>
+                            <input type="text" class="custom-input" id="customSuggestion" placeholder="Enter your training suggestion...">
+                        </div>
+                        
+                        <button type="submit" class="vote-btn" id="voteBtn">
+                            <span>🗳️ Submit Vote</span>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="results-section">
+                    <h3>📊 Live Results</h3>
+                    <div id="results">
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span class="result-name">🔐 CyberKaalaman</span>
+                                <span class="result-count" id="count-CyberKaalaman">0 votes</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-CyberKaalaman" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span class="result-name">⛏️ HOUR OF CODE: MineCraft</span>
+                                <span class="result-count" id="count-HOUR OF CODE: MineCraft">0 votes</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-HOUR OF CODE: MineCraft" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span class="result-name">⌨️ The Keys to Typing</span>
+                                <span class="result-count" id="count-The Keys to Typing: Finger Positions Made Easy">0 votes</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-The Keys to Typing: Finger Positions Made Easy" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span class="result-name">🛡️ File Safety 101</span>
+                                <span class="result-count" id="count-File Safety 101: Recovering & Protecting Data">0 votes</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-File Safety 101: Recovering & Protecting Data" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span class="result-name clickable-result" onclick="showOthersModal()">✨ Others (Click to view suggestions)</span>
+                                <span class="result-count" id="count-others">0 votes</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-others" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="total-votes">
+                        <span id="totalVotes">Total Votes: 0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Others Suggestions -->
+    <div id="othersModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>✨ Training Suggestions from Community</h2>
+                <span class="close" onclick="closeOthersModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p style="color: #666; margin-bottom: 20px; text-align: center;">
+                    Here are all the custom training suggestions submitted by the community:
+                </p>
+                <div id="suggestionsContainer">
+                    <div class="no-suggestions">
+                        <p>🤔 No custom suggestions yet. Be the first to suggest a training!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, push, onValue, get } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "your-project.firebaseapp.com",
+            databaseURL: "https://your-project-default-rtdb.firebaseio.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "your-app-id"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Check if user has already voted
+        function hasVoted() {
+            return localStorage.getItem('hasVoted') === 'true';
+        }
+
+        // Mark user as voted
+        function markAsVoted() {
+            localStorage.setItem('hasVoted', 'true');
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Handle others option
+        document.getElementById('othersRadio').addEventListener('change', function() {
+            document.getElementById('customSuggestion').style.display = 'block';
+        });
+
+        document.querySelectorAll('input[name="training"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value !== 'others') {
+                    document.getElementById('customSuggestion').style.display = 'none';
+                }
+            });
+        });
+
+        // Handle form submission
+        document.getElementById('voteForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (hasVoted()) {
+                showMessage('You have already voted! Thank you for your participation. 🙏', 'error');
+                return;
+            }
+
+            const formData = new FormData(this);
+            let selectedTraining = formData.get('training');
+            
+            if (!selectedTraining) {
+                showMessage('Please select a training option! 🤔', 'error');
+                return;
+            }
+
+            if (selectedTraining === 'others') {
+                const customSuggestion = document.getElementById('customSuggestion').value.trim();
+                if (!customSuggestion) {
+                    showMessage('Please enter your training suggestion! ✍️', 'error');
+                    return;
+                }
+                selectedTraining = `Others: ${customSuggestion}`;
+            }
+
+            try {
+                // Save vote to Firebase
+                await push(ref(database, 'votes'), {
+                    training: selectedTraining,
+                    timestamp: Date.now()
+                });
+
+                markAsVoted();
+                showMessage('Thank you for voting! Your voice matters! 🎉', 'success');
+                
+                // Disable form
+                document.getElementById('voteBtn').disabled = true;
+                document.getElementById('voteBtn').innerHTML = '<span>✅ Vote Submitted</span>';
+                
+            } catch (error) {
+                console.error('Error saving vote:', error);
+                showMessage('Error submitting vote. Please try again! 😔', 'error');
+            }
+        });
+
+        // Load and display results
+        function loadResults() {
+            const votesRef = ref(database, 'votes');
+            onValue(votesRef, (snapshot) => {
+                const votes = snapshot.val();
+                const voteCounts = {
+                    'CyberKaalaman': 0,
+                    'HOUR OF CODE: MineCraft': 0,
+                    'The Keys to Typing: Finger Positions Made Easy': 0,
+                    'File Safety 101: Recovering & Protecting Data': 0,
+                    'others': 0
+                };
+
+                // Store others suggestions for modal
+                window.othersSuggestions = [];
+                let totalVotes = 0;
+
+                if (votes) {
+                    Object.values(votes).forEach(vote => {
+                        const training = vote.training;
+                        if (training.startsWith('Others:')) {
+                            voteCounts['others']++;
+                            // Store the suggestion with timestamp
+                            window.othersSuggestions.push({
+                                suggestion: training.replace('Others: ', ''),
+                                timestamp: vote.timestamp || Date.now()
+                            });
+                        } else if (voteCounts.hasOwnProperty(training)) {
+                            voteCounts[training]++;
+                        }
+                        totalVotes++;
+                    });
+                }
+
+                // Update display
+                Object.keys(voteCounts).forEach(training => {
+                    const count = voteCounts[training];
+                    const percentage = totalVotes > 0 ? (count / totalVotes * 100).toFixed(1) : 0;
+                    
+                    const countEl = document.getElementById(`count-${training}`);
+                    const progressEl = document.getElementById(`progress-${training}`);
+                    
+                    if (countEl && progressEl) {
+                        countEl.textContent = `${count} votes (${percentage}%)`;
+                        progressEl.style.width = `${percentage}%`;
+                    }
+                });
+
+                document.getElementById('totalVotes').textContent = `Total Votes: ${totalVotes}`;
+            });
+        }
+
+        // Modal functions
+        window.showOthersModal = function() {
+            const modal = document.getElementById('othersModal');
+            const container = document.getElementById('suggestionsContainer');
+            
+            if (window.othersSuggestions && window.othersSuggestions.length > 0) {
+                // Sort suggestions by timestamp (newest first)
+                const sortedSuggestions = window.othersSuggestions.sort((a, b) => b.timestamp - a.timestamp);
+                
+                let tableHTML = `
+                    <table class="suggestions-table">
+                        <thead>
+                            <tr>
+                                <th>🎯 Training Suggestion</th>
+                                <th>📅 Submitted On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                sortedSuggestions.forEach((item, index) => {
+                    const date = new Date(item.timestamp).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    tableHTML += `
+                        <tr>
+                            <td class="suggestion-text">${item.suggestion}</td>
+                            <td class="suggestion-date">${date}</td>
+                        </tr>
+                    `;
+                });
+                
+                tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                container.innerHTML = tableHTML;
+            } else {
+                container.innerHTML = `
+                    <div class="no-suggestions">
+                        <p>🤔 No custom suggestions yet. Be the first to suggest a training!</p>
+                    </div>
+                `;
+            }
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        };
+        
+        window.closeOthersModal = function() {
+            const modal = document.getElementById('othersModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restore scrolling
+        };
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('othersModal');
+            if (event.target === modal) {
+                window.closeOthersModal();
+            }
+        }
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                window.closeOthersModal();
+            }
+        });
+        // Check if user has voted and disable form if needed
+        if (hasVoted()) {
+            document.getElementById('voteBtn').disabled = true;
+            document.getElementById('voteBtn').innerHTML = '<span>✅ Already Voted</span>';
+            showMessage('You have already participated in this vote! 🙏', 'error');
+        }
+
+        // Load results on page load
+        loadResults();
+    </script>
+</body>
+</html>
